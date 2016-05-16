@@ -1,7 +1,7 @@
 {
   "name": "markdoune",
-  "version": "2.0.1",
-  "description": "A small plugin to add \"markdown\" capabilities to textarea.",
+  "version": "2.0.2",
+  "description": "A small plugin to add markdown capabilities to textarea.",
   "scripts": {
     "test": "casperjs test --includes=tests/utils.js tests/**/*_test.js",
     "lint": "eslint markdoune.js tests/**/*.js",
