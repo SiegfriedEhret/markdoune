@@ -5,7 +5,7 @@
   "scripts": {
     "test": "casperjs test --includes=tests/utils.js tests/**/*_test.js",
     "lint": "eslint markdoune.js tests/**/*.js",
-    "pretest": "babel markdoune.js --out-dir dist"
+    "pretest": "babel markdoune.js -o markdoune.es5.js"
   },
   "author": {
     "name": "Siegfried Ehret",
