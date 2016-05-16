@@ -4,7 +4,15 @@ A textarea pimper.
 
 Demo: https://dev.ehret.me/markdoune/
 
+## install
+
+`npm install --save markdoune`
+
 ## configuration
+
+Basically, you'll apply a configuration to a container which contains your textarea and your action buttons.
+
+You'll have to configure the actions for the buttons.
 
 See `index.html` for the html and `do-stuff.js` for the configuration.
 
@@ -12,7 +20,7 @@ See `index.html` for the html and `do-stuff.js` for the configuration.
 
 Tests use [CasperJS](http://casperjs.org/).
 
-Run `npmp test`.
+Run `npm test`.
 
 ## license
 
