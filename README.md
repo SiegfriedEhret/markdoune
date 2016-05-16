@@ -2,6 +2,8 @@
 
 A textarea pimper.
 
+Demo: https://dev.ehret.me/markdoune/
+
 ## configuration
 
 See `index.html` for the html and `do-stuff.js` for the configuration.
