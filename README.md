@@ -9,7 +9,8 @@ See `index.html` for the html and `do-stuff.js` for the configuration.
 ## tests
 
 Tests use [CasperJS](http://casperjs.org/).
-Run `gulp test`.
+
+Run `npmp test`.
 
 ## license
 
