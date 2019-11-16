@@ -69,7 +69,7 @@ const config = {
 markdoune(".text-container", config);
 ````
 
-See `index.html` for the html and `do-stuff.js` for an example.
+See the [example](./example/) folder.
 
 ## tests
 

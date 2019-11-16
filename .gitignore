@@ -5,3 +5,5 @@
 # folders
 node_modules/
 cypress/videos/
+example/.cache
+example/dist

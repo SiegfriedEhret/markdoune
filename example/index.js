@@ -1,4 +1,4 @@
-import markdoune from "./markdoune.js";
+import markdoune from "markdoune";
 
 const config = {
   textareaSelector: ".text",

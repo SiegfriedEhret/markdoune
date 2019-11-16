@@ -1,4 +1,5 @@
 cypress/
+example/
 src/
 cypress.json
 do-stuff.js
