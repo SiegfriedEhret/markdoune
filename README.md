@@ -10,15 +10,70 @@ Demo: https://dev.ehret.me/markdoune/
 
 ## configuration
 
-Basically, you'll apply a configuration to a container which contains your textarea and your action buttons.
+You will apply a configuration to a container which contains your textarea and your action buttons.
 
-You'll have to configure the actions for the buttons.
+You will have to configure the actions for the buttons.
 
-See `index.html` for the html and `do-stuff.js` for the configuration.
+```javascript
+import markdoune from "./markdoune.js";
+
+const config = {
+  textareaSelector: ".text",
+  onActionCallback: function() {
+    console.log("content has been modified");
+  },
+  buttons: [
+    {
+      buttonSelector: ".mark-bold",
+      before: "**",
+      after: "**",
+      multi: false
+    },
+    {
+      buttonSelector: ".mark-italic",
+      before: "_",
+      after: "_",
+      multi: false
+    },
+    {
+      buttonSelector: ".mark-quote",
+      before: "> ",
+      multi: true
+    },
+    {
+      buttonSelector: ".mark-list-bullets",
+      before: "- ",
+      multi: true
+    },
+    {
+      buttonSelector: ".mark-list-numbers",
+      before: ". ",
+      multi: true,
+      count: true
+    },
+    {
+      buttonSelector: ".mark-link",
+      before: "[",
+      after: "]()",
+      multi: false
+    },
+    {
+      buttonSelector: ".mark-code",
+      before: "\n```\n",
+      after: "\n```\n",
+      multi: false
+    }
+  ]
+};
+
+markdoune(".text-container", config);
+````
+
+See `index.html` for the html and `do-stuff.js` for an example.
 
 ## tests
 
-Tests use [CasperJS](http://casperjs.org/).
+Tests use [Cypress](https://www.cypress.io/).
 
 Run `npm test`.
 
@@ -29,7 +84,7 @@ Licensed under the [MIT](http://opensource.org/licenses/MIT) license.
 ```
 The MIT License (MIT)
 
-Copyright (c) 2016 Siegfried Ehret <siegfried@ehret.me>
+Copyright (c) 2016-2019 Siegfried Ehret <siegfried@ehret.me>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

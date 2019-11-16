@@ -1,8 +1,7 @@
 # idea
-.idea
+.idea/
 *.iml
 
 # folders
-node_modules
-tests/output
-dist/
+node_modules/
+cypress/videos/
