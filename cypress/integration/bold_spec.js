@@ -1,6 +1,6 @@
 describe("Should work for bold", () => {
 	beforeEach(() => {
-		cy.visit("/");
+		cy.visit("/example/");
 	});
 
 	it("should bold everyting", () => {

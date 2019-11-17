@@ -1,6 +1,6 @@
 describe("Should work for quote", () => {
 	beforeEach(() => {
-		cy.visit("/");
+		cy.visit("/example/");
 	});
 
 	it("should work for everyting", () => {

@@ -13,7 +13,5 @@
   "devDependencies": {
     "parcel-bundler": "^1.12.4"
   },
-  "dependencies": {
-    "markdoune": "^3.0.0"
-  }
+  "dependencies": {}
 }

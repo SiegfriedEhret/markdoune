@@ -3,16 +3,13 @@
  * by Siegfried Ehret
  * Licensed under the MIT (http://opensource.org/licenses/MIT) license.
  */
-interface Button {
-    buttonSelector: string;
-    before: string;
-    after: string;
-    multi: boolean;
+import { ButtonConfig, Config, SelectionOptions } from "./types";
+export * from "./lib/markdown";
+export default function markdoune(selector: string, config: Config): Markdoune;
+declare class Markdoune {
+    textarea: HTMLTextAreaElement;
+    onChange: (newValue: string, oldValue: any) => void;
+    constructor(config: Config);
+    button(selector: string, config: ButtonConfig): this;
+    getOptions(): SelectionOptions;
 }
-interface Config {
-    textareaSelector: string;
-    onActionCallback: VoidFunction;
-    buttons: Button[];
-}
-export default function markdoune(selector: string, config: Config): void;
-export {};

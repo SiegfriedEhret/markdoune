@@ -1,8 +1,8 @@
 {
-	"extends": "../tsconfig.json",
-	"include": ["."],
+  "extends": "../tsconfig.json",
+  "include": ["."],
 
-	"compilerOptions": {
-		"lib": ["es2017", "dom"]
-	}
+  "compilerOptions": {
+    "lib": ["es2017", "dom"]
+  }
 }

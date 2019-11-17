@@ -4,147 +4,55 @@
  * Licensed under the MIT (http://opensource.org/licenses/MIT) license.
  */
 
-interface Button {
-  buttonSelector: string;
-  before: string;
-  after: string;
-  multi: boolean;
-}
+import { ButtonConfig, Config, SelectionOptions } from "./types";
+import { getLineNumbers, getSelection } from "./lib/content";
 
-interface Config {
-  textareaSelector: string;
-  onActionCallback: VoidFunction;
-  buttons: Button[];
-}
+export * from "./lib/markdown";
+
+const noop = () => {};
 
 export default function markdoune(selector: string, config: Config) {
-  Array.prototype.concat
-    .apply([], document.querySelectorAll(selector))
-    .forEach(container => {
-      const textarea = container.querySelector(config.textareaSelector);
+  return new Markdoune({ selector, ...config });
+}
 
-      if (!config.onActionCallback) {
-        config.onActionCallback = function() {};
-      }
+class Markdoune {
+  textarea: HTMLTextAreaElement;
+  onChange: (newValue: string, oldValue) => void;
 
-      for (let i = 0; i < config.buttons.length; i++) {
-        configureButton(
-          container,
-          textarea,
-          config.buttons[i],
-          config.onActionCallback
-        );
-      }
+  constructor(config: Config) {
+    this.textarea = document.querySelector(config.selector);
+    this.onChange = config.onChange || noop;
+
+    return this;
+  }
+
+  button(selector: string, config: ButtonConfig) {
+    const { transform } = config;
+
+    if (!transform) {
+      throw new Error(
+        `markdoune needs a transform function for element ${selector}`
+      );
+    }
+
+    document.querySelector(selector).addEventListener("click", () => {
+      const origin = this.textarea.value;
+      this.textarea.value = transform(origin, this.getOptions());
+      this.onChange(this.textarea.value, origin);
     });
-}
 
-function getSelection(element) {
-  const { selectionStart, selectionEnd } = element;
-  return {
-    start: selectionStart,
-    end: selectionEnd
-  };
-}
-
-function getLineNumbers(element) {
-  const { start, end } = getSelection(element);
-  const value = element.value;
-  const startLine = (value.substring(0, start).match(/\n/g) || []).length;
-  const endLine = (value.substring(0, end).match(/\n/g) || []).length;
-  const maxLine = (value.match(/\n/g) || []).length;
-  return { startLine, endLine, maxLine };
-}
-
-function setWrap(element, before, after) {
-  const { start, end } = getSelection(element);
-  const valueAsArray = element.value.split("");
-  valueAsArray.splice(end, 0, after);
-  valueAsArray.splice(start, 0, before);
-  element.value = valueAsArray.join("");
-}
-
-function setMultiWrap(element, options) {
-  const valueAsArray = element.value.split("");
-  let { startLine, endLine, maxLine } = getLineNumbers(element);
-
-  if (endLine < startLine) {
-    const temp = startLine;
-    startLine = endLine;
-    endLine = temp;
+    return this;
   }
 
-  let lastIndex = 0;
-  let lineCount = 0;
-  let itemCount = 0;
-
-  while (lineCount < startLine) {
-    lastIndex = valueAsArray.indexOf("\n", lastIndex) + 1;
-    lineCount++;
+  getOptions(): SelectionOptions {
+    const { selectionStart, selectionEnd } = getSelection(this.textarea);
+    const { lineStart, lineEnd, lineMax } = getLineNumbers(this.textarea);
+    return {
+      selectionStart,
+      selectionEnd,
+      lineStart,
+      lineEnd,
+      lineMax
+    };
   }
-
-  for (let i = startLine; i <= endLine; i++) {
-    if (i === 0) {
-      valueAsArray.splice(
-        0,
-        0,
-        options.count ? itemCount + 1 + options.before : options.before
-      );
-      lastIndex = valueAsArray.indexOf("\n", lastIndex) + 1;
-      lineCount++;
-      itemCount++;
-    } else if (i === maxLine) {
-      while (lineCount < endLine) {
-        lastIndex = valueAsArray.indexOf("\n", lastIndex) + 1;
-        lineCount++;
-      }
-      valueAsArray.splice(
-        lastIndex,
-        0,
-        options.count ? itemCount + 1 + options.before : options.before
-      );
-      itemCount++;
-    } else {
-      valueAsArray.splice(
-        lastIndex,
-        0,
-        options.count ? itemCount + 1 + options.before : options.before
-      );
-      lastIndex = valueAsArray.indexOf("\n", lastIndex) + 1;
-      lineCount++;
-      itemCount++;
-    }
-  }
-
-  element.value = valueAsArray.join("");
-}
-
-// https://stackoverflow.com/questions/4386300/javascript-dom-how-to-remove-all-events-of-a-dom-object
-function removeHandlers(element) {
-  const clone = element.cloneNode();
-  while (element.firstChild) {
-    clone.appendChild(element.lastChild);
-  }
-  element.parentNode.replaceChild(clone, element);
-}
-
-function configureButton(container, textarea, config, onActionCallback) {
-  let button = container.querySelector(config.buttonSelector);
-  removeHandlers(button);
-
-  // We need to get the new button
-  button = container.querySelector(config.buttonSelector);
-
-  button.addEventListener("click", function() {
-    if (config.multi) {
-      setMultiWrap(textarea, {
-        before: config.before,
-        count: config.count
-      });
-    } else {
-      setWrap(textarea, config.before, config.after);
-    }
-    if (onActionCallback) {
-      onActionCallback();
-    }
-  });
 }

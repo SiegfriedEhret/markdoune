@@ -1,8 +1,8 @@
+.idea/
 cypress/
 example/
 src/
+*.iml
 cypress.json
-do-stuff.js
 index.html
 rollup.config.js
-tsconfig.js
